@@ -8,15 +8,12 @@ import { GlobalStyles } from './theme/styles';
 const HomeScreen = () => {
   return (
     <View style={GlobalStyles.container}>
-      {/* Main Content fills the entire space first */}
       <View style={styles.mainContent}>
         <MainContent 
           buttonText="Magic Meal" 
           searchPlaceholder="What do you have on hand?"
         />
       </View>
-      
-      {/* Header and Footer are placed on top using absolute positioning */}
       <Header title="PlateFlow" />
       <Footer 
         homeText="Home" 
@@ -28,7 +25,7 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   mainContent: {
-    flex: 1, // This view takes up all available space
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
