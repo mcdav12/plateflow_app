@@ -1,39 +1,43 @@
-import React, { useMemo } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, Image, ScrollView, FlatList } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../theme/colors';
+
+const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
 
 const RecipeDetailsScreen = ({ route }) => {
   const insets = useSafeAreaInsets();
   
   const { recipe } = route.params || {};
 
-  if (!recipe) {
+  if (!recipe || !recipe.ingredients) {
     return (
       <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-        <Text style={styles.errorText}>No recipe data found.</Text>
+        <Text style={styles.errorText}>No recipe data found or incomplete recipe.</Text>
       </View>
     );
   }
 
-  // Memoize the rendering of the ingredients list
-  const renderedIngredients = useMemo(() => {
-    return recipe.ingredients.map((ingredient, index) => (
-      <Text key={index} style={styles.listItem}>- {ingredient}</Text>
-    ));
-  }, [recipe.ingredients]);
+  const renderIngredient = ({ item, index }) => (
+    <Text key={index} style={styles.listItem}>- {item}</Text>
+  );
 
   return (
     <ScrollView style={styles.container}>
       <Image
-        source={{ uri: recipe.imageUrl }}
+        source={{ uri: recipe.imageUrl || DEFAULT_IMAGE }}
         style={styles.image}
       />
       <View style={styles.content}>
         <Text style={styles.title}>{recipe.title}</Text>
         <Text style={styles.description}>{recipe.description}</Text>
         <Text style={styles.sectionTitle}>Ingredients:</Text>
-        {renderedIngredients}
+        <FlatList
+          data={recipe.ingredients}
+          renderItem={renderIngredient}
+          keyExtractor={(item, index) => String(index)}
+          scrollEnabled={false}
+        />
       </View>
     </ScrollView>
   );
