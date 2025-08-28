@@ -4,10 +4,13 @@ import PropTypes from 'prop-types';
 import { COLORS } from './theme/colors';
 import { ButtonStyles } from './theme/styles';
 
-const MainContent = ({ buttonText, searchPlaceholder }) => {
+const MainContent = ({ buttonText, searchPlaceholder, onButtonPress }) => {
   return (
     <View style={styles.mainContent}>
-      <TouchableOpacity style={styles.magicMealButton}>
+      <TouchableOpacity 
+        style={styles.magicMealButton} 
+        onPress={onButtonPress} // This is the new part
+      >
         <Text style={styles.magicMealText}>{buttonText}</Text>
       </TouchableOpacity>
       <View style={styles.searchContainer}>
@@ -25,6 +28,7 @@ const MainContent = ({ buttonText, searchPlaceholder }) => {
 MainContent.propTypes = {
   buttonText: PropTypes.string.isRequired,
   searchPlaceholder: PropTypes.string.isRequired,
+  onButtonPress: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
