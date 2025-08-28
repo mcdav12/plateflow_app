@@ -2,14 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import { COLORS } from './theme/colors';
-import { ButtonStyles } from './theme/styles';
 
-const MainContent = ({ buttonText, searchPlaceholder, onButtonPress }) => {
+const MainContent = ({ buttonText, searchPlaceholder, onButtonPress, searchQuery, setSearchQuery, onSubmitSearch }) => {
   return (
     <View style={styles.mainContent}>
       <TouchableOpacity 
         style={styles.magicMealButton} 
-        onPress={onButtonPress} // This is the new part
+        onPress={onButtonPress} 
       >
         <Text style={styles.magicMealText}>{buttonText}</Text>
       </TouchableOpacity>
@@ -19,6 +18,9 @@ const MainContent = ({ buttonText, searchPlaceholder, onButtonPress }) => {
           style={styles.searchBar}
           placeholder={searchPlaceholder}
           placeholderTextColor={COLORS.lightText}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          onSubmitEditing={onSubmitSearch} // New prop for Enter key
         />
       </View>
     </View>
@@ -29,6 +31,9 @@ MainContent.propTypes = {
   buttonText: PropTypes.string.isRequired,
   searchPlaceholder: PropTypes.string.isRequired,
   onButtonPress: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired,
+  setSearchQuery: PropTypes.func.isRequired,
+  onSubmitSearch: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({

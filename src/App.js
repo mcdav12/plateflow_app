@@ -8,21 +8,6 @@ import { COLORS } from './theme/colors';
 
 const Stack = createStackNavigator();
 
-const MOCK_RECIPE = {
-  imageUrl: 'https://picsum.photos/400/250',
-  title: 'Spicy Chicken Curry',
-  description: 'A delicious and easy-to-make chicken curry with a kick. Perfect for a weeknight dinner.',
-  ingredients: [
-    'Chicken breast, cubed (1 lb)',
-    'Onion, chopped (1)',
-    'Garlic, minced (2 cloves)',
-    'Ginger, minced (1 tbsp)',
-    'Curry powder (2 tbsp)',
-    'Coconut milk (1 can)',
-    'Salt and pepper to taste',
-  ],
-};
-
 export default function App() {
   return (
     <SafeAreaProvider>
@@ -43,7 +28,7 @@ export default function App() {
         >
           <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'PlateFlow' }} />
           <Stack.Screen name="RecipeDetails">
-            {props => <RecipeDetailsScreen {...props} recipe={MOCK_RECIPE} />}
+            {({ route, navigation }) => <RecipeDetailsScreen route={route} navigation={navigation} />}
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
