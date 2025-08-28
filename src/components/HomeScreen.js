@@ -3,10 +3,9 @@ import { View, StyleSheet, Platform, KeyboardAvoidingView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import MainContent from './MainContent';
-import Footer from './Footer';
 import SearchResults from './SearchResults';
-import { GlobalStyles } from './theme/styles';
-import { RECIPES } from './data/recipes';
+import { GlobalStyles } from '../theme/styles';
+import { RECIPES } from '../data/recipes';
 
 const HomeScreen = () => {
   const insets = useSafeAreaInsets();
@@ -61,10 +60,6 @@ const HomeScreen = () => {
         />
         <SearchResults recipes={filteredRecipes} searchQuery={searchQuery} />
       </View>
-      <Footer 
-        homeText="Home" 
-        favoritesText="Favorites" 
-      />
     </KeyboardAvoidingView>
   );
 };

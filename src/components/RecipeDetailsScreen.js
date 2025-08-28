@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS } from './theme/colors';
+import { COLORS } from '../theme/colors';
 
 const RecipeDetailsScreen = ({ route }) => {
   const insets = useSafeAreaInsets();

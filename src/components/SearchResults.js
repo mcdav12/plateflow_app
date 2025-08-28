@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
-import { COLORS } from './theme/colors';
+import { COLORS } from '../theme/colors';
 
 const SearchResults = ({ recipes, searchQuery }) => {
   const navigation = useNavigation();

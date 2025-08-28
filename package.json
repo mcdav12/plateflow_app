@@ -1,7 +1,7 @@
 {
   "name": "plateflow",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",

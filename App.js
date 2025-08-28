@@ -2,9 +2,9 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './HomeScreen';
-import RecipeDetailsScreen from './RecipeDetailsScreen';
-import { COLORS } from './theme/colors';
+import HomeScreen from './src/components/HomeScreen';
+import RecipeDetailsScreen from './src/components/RecipeDetailsScreen';
+import { COLORS } from './src/theme/colors';
 
 const Stack = createStackNavigator();
 

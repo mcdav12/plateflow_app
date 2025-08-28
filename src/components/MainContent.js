@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
-import { COLORS } from './theme/colors';
+import { COLORS } from '../theme/colors';
 
 const MainContent = ({ buttonText, searchPlaceholder, onButtonPress, searchQuery, setSearchQuery, onSubmitSearch }) => {
   return (
