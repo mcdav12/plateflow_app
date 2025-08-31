@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Platform, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import MainContent from './MainContent';
-import SearchResults from './SearchResults';
+import { Ionicons } from '@expo/vector-icons';
+import { COLORS } from '../theme/colors';
 import { GlobalStyles } from '../theme/styles';
 import { fetchRandomRecipe } from '../data/api';
 
@@ -11,90 +11,56 @@ const HomeScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [recipes, setRecipes] = useState([]);
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Fetch initial recipe on component load
-  useEffect(() => {
-    const loadRecipes = async () => {
-      const initialRecipes = [];
-      // Fetch 5 random recipes
-      for (let i = 0; i < 5; i++) {
-        const recipe = await fetchRandomRecipe();
-        if (recipe) {
-          initialRecipes.push(recipe);
-        }
-      }
-      setRecipes(initialRecipes);
-      setFilteredRecipes(initialRecipes);
-      setIsLoading(false);
-    };
-
-    loadRecipes();
-  }, []);
-
-  useEffect(() => {
-    if (searchQuery.length > 0) {
-      const filtered = recipes.filter(recipe => {
-        const titleMatch = recipe.title.toLowerCase().includes(searchQuery.toLowerCase());
-        const ingredientsMatch = recipe.ingredients.some(ingredient =>
-          ingredient.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-        return titleMatch || ingredientsMatch;
-      });
-      setFilteredRecipes(filtered);
-    } else {
-      setFilteredRecipes(recipes);
-    }
-  }, [searchQuery, recipes]);
+  const [isMagicMealLoading, setIsMagicMealLoading] = useState(false);
 
   const handleMagicMealPress = async () => {
-    // Fetch a new random recipe for the button press
-    setIsLoading(true);
+    setIsMagicMealLoading(true);
     const newRecipe = await fetchRandomRecipe();
-    setIsLoading(false);
+    setIsMagicMealLoading(false);
+    
     if (newRecipe) {
       navigation.navigate('RecipeDetails', { recipe: newRecipe });
     }
   };
 
-  const handleSearchSubmit = () => {
-    console.log('Search submitted:', searchQuery);
-  };
-
   return (
-    <KeyboardAvoidingView
-      style={[GlobalStyles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <View style={styles.mainContent}>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          <>
-            <MainContent
-              buttonText="Magic Meal"
-              searchPlaceholder="What do you have on hand?"
-              onButtonPress={handleMagicMealPress}
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              onSubmitSearch={handleSearchSubmit}
-            />
-            <SearchResults recipes={filteredRecipes} searchQuery={searchQuery} />
-          </>
-        )}
-      </View>
-    </KeyboardAvoidingView>
+    <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+      <Pressable
+        style={({ pressed }) => [styles.magicMealButton, pressed && GlobalStyles.buttonPressed]}
+        onPress={handleMagicMealPress}
+        disabled={isMagicMealLoading}
+      >
+        <Ionicons name="sparkles" size={48} color={COLORS.white} />
+        <Text style={styles.buttonText}>Magic Meal</Text>
+      </Pressable>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  mainContent: {
+  container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  magicMealButton: {
+    backgroundColor: COLORS.primary,
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 6,
+  },
+  buttonText: {
+    color: COLORS.white,
+    fontFamily: 'Lato_700Bold',
+    fontSize: 16,
+    marginTop: 10,
   },
 });
 

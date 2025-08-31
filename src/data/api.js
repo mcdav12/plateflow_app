@@ -1,27 +1,65 @@
-export const fetchRandomRecipe = async () => {
-    try {
-      const response = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
-      const data = await response.json();
-      const meal = data.meals[0];
-  
-      // Map the API data to our recipe structure
-      const ingredients = [];
-      for (let i = 1; i <= 20; i++) {
-        if (meal[`strIngredient${i}`]) {
-          ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`);
-        }
-      }
-  
-      return {
-        id: meal.idMeal,
-        title: meal.strMeal,
-        imageUrl: meal.strMealThumb,
-        description: meal.strInstructions.substring(0, 200) + '...', // Truncate description for brevity
-        ingredients: ingredients,
-      };
-  
-    } catch (error) {
-      console.error('Error fetching recipe:', error);
-      return null;
+const BASE_URL = 'https://www.themealdb.com/api/json/v1/1';
+
+const searchRecipeByName = async (query) => {
+  try {
+    const response = await fetch(`${BASE_URL}/search.php?s=${encodeURIComponent(query)}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
-  };
+    
+    const data = await response.json();
+    
+    if (!data.meals) {
+      return [];
+    }
+    
+    const recipes = data.meals.map(meal => ({
+      id: meal.idMeal,
+      title: meal.strMeal,
+      imageUrl: meal.strMealThumb,
+    }));
+    
+    return recipes;
+    
+  } catch (error) {
+    console.error('Error fetching recipes:', error);
+    return [];
+  }
+};
+
+const fetchRandomRecipe = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/random.php`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    const recipe = data.meals[0];
+    
+    const ingredients = [];
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = recipe[`strIngredient${i}`];
+      const measure = recipe[`strMeasure${i}`];
+      if (ingredient && ingredient.trim() !== '') {
+        ingredients.push(`${ingredient} - ${measure}`);
+      }
+    }
+    
+    return {
+      id: recipe.idMeal,
+      title: recipe.strMeal,
+      imageUrl: recipe.strMealThumb,
+      description: recipe.strInstructions,
+      ingredients: ingredients,
+    };
+    
+  } catch (error) {
+    console.error('Error fetching a random recipe:', error);
+    return null;
+  }
+};
+
+export { searchRecipeByName, fetchRandomRecipe };

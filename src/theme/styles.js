@@ -1,22 +1,14 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from './colors';
 
 export const GlobalStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: 'white',
   },
-  sectionContainer: {
-    padding: 20,
+  buttonPressed: {
+    opacity: 0.7,
   },
-});
-
-export const ButtonStyles = StyleSheet.create({
-  primary: {
-    backgroundColor: COLORS.primary,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 25,
-    elevation: 3,
+  text: {
+    fontFamily: 'Lato_400Regular',
   },
 });

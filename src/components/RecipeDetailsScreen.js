@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, FlatList, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../theme/colors';
+import { GlobalStyles } from '../theme/styles'; // Import GlobalStyles
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -81,7 +82,7 @@ const RecipeDetailsScreen = ({ route }) => {
             />
           </Pressable>
         </View>
-        <Text style={styles.description}>{recipe.description}</Text>
+        <Text style={[styles.description, GlobalStyles.text]}>{recipe.description}</Text>
         <Text style={styles.sectionTitle}>Ingredients:</Text>
         <FlatList
           data={recipe.ingredients}
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontFamily: 'Lato_700Bold', // Apply the bold font here
     color: COLORS.text,
     flexShrink: 1,
   },
@@ -122,10 +123,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.lightText,
     marginBottom: 20,
+    fontFamily: 'Lato_400Regular', // Apply the regular font here
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'Lato_700Bold', // Apply the bold font here
     color: COLORS.text,
     marginBottom: 10,
   },
@@ -133,12 +135,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.text,
     marginBottom: 5,
+    fontFamily: 'Lato_400Regular', // Apply the regular font here
   },
   errorText: {
     fontSize: 18,
     color: 'red',
     textAlign: 'center',
     marginTop: 50,
+    fontFamily: 'Lato_400Regular', // Apply the regular font here
   },
 });
 
